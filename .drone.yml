@@ -8,4 +8,12 @@ pipeline:
     tag:
     - latest
     - "1.0.${DRONE_BUILD_NUMBER}"
-
+  deploy-to-party:
+      image: plugins/ssh
+      host: prod.bitlogic.party
+      user: ec2-user
+      port: 22
+      script:
+        - docker pull bitlogicos/demo
+        - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock bitlogicos/demo pull
+        - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock bitlogicos/demo
